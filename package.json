@@ -4,7 +4,7 @@
   "description": "Quiz app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/hashobject/quizzy/issues"
   },
-  "homepage": "https://github.com/hashobject/quizzy"
+  "homepage": "https://github.com/hashobject/quizzy",
+  "dependencies": {
+    "express": "^4.11.1"
+  }
 }
