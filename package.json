@@ -1,0 +1,22 @@
+{
+  "name": "quizzy",
+  "version": "1.0.0",
+  "description": "Quiz app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hashobject/quizzy.git"
+  },
+  "keywords": [
+    "quiz"
+  ],
+  "author": "Hashobject Team <team@hashobject.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hashobject/quizzy/issues"
+  },
+  "homepage": "https://github.com/hashobject/quizzy"
+}
