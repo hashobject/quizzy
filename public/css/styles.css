@@ -1,3 +1,67 @@
+#main-container {
+    height: 500px;
+    margin-top: 10px;
+}
+
+#main-row {
+    height: 100%;
+}
+
+#game-window {
+    height: 100%;
+    background: antiquewhite;
+    border-radius: 5px;
+}
+
+#statistic-window {
+    height: 70%;
+    background: aliceblue;
+    border-radius: 5px;
+}
+
+#game-title {
+    width: 100%;
+    height: 10%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#game-content {
+    width: 100%;
+    height: 76%;
+    margin: 0 auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background: #ffffff;
+}
+
+#game-input {
+    width: 100%;
+    height: 10%;
+}
+
+.avatar {
+    height: 20%;
+}
+
+.message {
+    height: 20%;
+}
+
+#statistics-title {
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#leaders {
+    height: 75%;
+    width: 100%;
+    margin: 0 auto;
+    background: white;
+}
+/*
 #container {
     position: relative;
     width: 900px;
@@ -73,4 +137,4 @@
 #leaders {
     width: 100%;
     height: 80%;
-}
+}*/
