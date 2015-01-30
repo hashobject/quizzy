@@ -9,6 +9,7 @@ function submitAnswer(){
             $('#game-content').append('<div class="col-lg-2 col-md-2 col-sm-2 avatar">' +'<img src="ars.jpg"/>'+ '</div>');
             $('#game-content').append('<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + answerValue + '</p></div>');
             $('#user-answer').val('');
+            $('#game-content').scrollTop(1E10);
         }
 	});
 
@@ -19,6 +20,7 @@ function submitAnswer(){
                 $('#game-content').append('<div class="col-lg-2 col-md-2 col-sm-2 avatar">' +'<img src="ars.jpg"/>'+ '</div>');
                 $('#game-content').append('<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + answerValue + '</p></div>');
                 $('#user-answer').val('');
+                $('#game-content').scrollTop(1E10);
             }
         }
     });
