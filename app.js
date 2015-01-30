@@ -1,7 +1,15 @@
 'use strict';
 var express = require('express')
 var app = express();
+var fs = require('fs');
+var jsonData;
 
+fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
+    jsonData = data;
+    console.log(jsonData);
+});
+
+//console.log(jsonData);
 
 app.use(express.static('public'));
 

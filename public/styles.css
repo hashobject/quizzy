@@ -18,8 +18,9 @@
 #messages-window {
     height: 95%;
     position: relative;
-    display: flex;
+    display: inline-block;
     background: beige;
+    width: 100%;
 }
 
 #answers-input {
@@ -49,10 +50,12 @@
 .avatar {
     width: 15%;
     height: 10%;
+    display: inline-block;
 }
 .message {
     width: 85%;
     height: 10%;
+    display: inline-block;
 }
 #statistics {
     width: 30%;
