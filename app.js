@@ -9,7 +9,6 @@ fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
     console.log(jsonData);
 });
 
-//console.log(jsonData);
 
 app.use(express.static('public'));
 

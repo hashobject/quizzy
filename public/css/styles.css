@@ -33,6 +33,7 @@
     margin-top: 2%;
     margin-bottom: 2%;
     background: #ffffff;
+    overflow-y: scroll;
 }
 
 #game-input {
@@ -42,10 +43,19 @@
 
 .avatar {
     height: 20%;
+    margin-top: 10px;
+    border-bottom: 1px solid;
 }
 
 .message {
     height: 20%;
+    margin-top: 10px;
+    border-bottom: 1px solid;
+}
+
+img {
+    width: 100%;
+    height: 100%;
 }
 
 #statistics-title {
