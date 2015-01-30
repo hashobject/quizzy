@@ -45,12 +45,14 @@
     height: 20%;
     margin-top: 10px;
     border-bottom: 1px solid;
+    padding-bottom: 10px;
 }
 
 .message {
     height: 20%;
     margin-top: 10px;
     border-bottom: 1px solid;
+    padding-bottom: 10px;
 }
 
 img {
