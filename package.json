@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/hashobject/quizzy",
   "dependencies": {
-    "express": "^4.11.1"
+    "express": "^4.11.1",
+    "underscore": "^1.7.0"
   }
 }
