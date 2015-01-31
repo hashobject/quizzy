@@ -5,20 +5,12 @@ var express = require('express'),
 	app = express(),
 	jsonData;
 
-var capitals = [],
-	countries = [];
+var questions = [];
 
 fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
     jsonData = JSON5.parse(data);
-    getDataFromJson(jsonData, capitals, countries);
-
-   for(var i = 0; i<10; i++) {
-    	console.log("Question " + (i+1) + ":");
-    	console.log(countries[i]);
-	    console.log("Answer " + (i+1) + ":");
-	    console.log(capitals[i]);
-	    console.log('');
-    }
+    getDataFromJson(jsonData, questions);
+    console.log(questions);
 });
 
 app.use(express.static('public'));
@@ -32,15 +24,13 @@ var server = app.listen(3000, function () {
 
 });
 
-function getDataFromJson(json, cpt, cnt) {
+function getDataFromJson(json, question) {
 	for(var i in json){
 		if(json[i].capital !== null) {
-			cpt.push(json[i].capital);
-			cnt.push(json[i].name);
+			question.push({"name": json[i].name, "capital": json[i].capital});
 		}
 		else {
-			cpt.push(json[i].name);
-			cnt.push(json[i].name);
+			question.push({"name": json[i].name, "capital": json[i].name});
 		}
 	}
 }
