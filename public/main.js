@@ -6,10 +6,7 @@ function submitAnswer(){
 	$('#submit-answer').click(function(){
 		var answerValue = $('#user-answer').val();
         if(answerValue !== ''){
-            $('#game-content').append('<div class="col-lg-2 col-md-2 col-sm-2 avatar">' +'<img src="ars.jpg"/>'+ '</div>');
-            $('#game-content').append('<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + answerValue + '</p></div>');
-            $('#user-answer').val('');
-            $('#game-content').scrollTop(1E10);
+            displayAnswer(answerValue);
         }
 	});
 
@@ -17,11 +14,18 @@ function submitAnswer(){
         var answerValue = $('#user-answer').val();
         if(e.keyCode === 13){
             if(answerValue !== ''){
-                $('#game-content').append('<div class="col-lg-2 col-md-2 col-sm-2 avatar">' +'<img src="ars.jpg"/>'+ '</div>');
-                $('#game-content').append('<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + answerValue + '</p></div>');
-                $('#user-answer').val('');
-                $('#game-content').scrollTop(1E10);
+                displayAnswer(answerValue);
             }
         }
     });
+}
+
+function displayAnswer(message, avatar) {
+    var myHtml =  '<div class="row">'+
+                    '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><img src="ars.jpg"/></div>'+
+                    '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + message + '</p></div>'+
+                '</div>'
+    $('#game-content').append(myHtml);
+    $('#user-answer').val('');
+    $('#game-content').scrollTop(1E10);
 }

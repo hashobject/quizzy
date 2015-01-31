@@ -25,14 +25,14 @@ body {
 
 #game-title {
     width: 100%;
-    height: 10%;
+    height: 15%;
     text-align: center;
     margin: 0 auto;
 }
 
 #game-content {
     width: 100%;
-    height: 76%;
+    height: 71%;
     margin: 0 auto;
     margin-top: 2%;
     margin-bottom: 2%;
@@ -43,20 +43,21 @@ body {
 #game-input {
     width: 100%;
     height: 10%;
+    margin: 0 auto;
 }
 
 .avatar {
-    height: 20%;
-    margin-top: 10px;
+    height: 100%;
+    /*margin-top: 10px;
     border-bottom: 1px solid;
-    padding-bottom: 10px;
+    padding-bottom: 10px;*/
 }
 
 .message {
-    height: 20%;
-    margin-top: 10px;
+    height: 100%;
+    /*margin-top: 10px;
     border-bottom: 1px solid;
-    padding-bottom: 10px;
+    padding-bottom: 10px;*/
 }
 
 img {
@@ -80,4 +81,22 @@ img {
 
 p {
     overflow-wrap: break-word;
+}
+
+#user-input-div {
+    padding: 0;
+}
+
+#submit-answer-div {
+    padding: 0;
+}
+
+#submit-answer {
+    width: 100%;
+}
+
+#game-content .row {
+    height: 20%;
+    border-bottom: 1px solid;
+    padding: 10px;
 }
