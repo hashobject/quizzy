@@ -1,8 +1,19 @@
 'use strict';
 var express = require('express'),
-	app = express();
+    bodyParser = require('body-parser'),
+	app = express(),
+    messages = [];
 
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/messages', function(req, res) {
+	  messages.push(req.body.message);
+});
+
+app.get('/messages', function(req, res) {
+    res.send(messages);
+});
 
 var server = app.listen(3000, function () {
 
