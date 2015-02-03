@@ -1,25 +1,17 @@
 'use strict';
-var express = require('express'),
-    bodyParser = require('body-parser'),
-	app = express(),
-    messages = [];
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/messages', function(req, res) {
-	  messages.push(req.body.message);
+io.on('connection', function(socket){
+  socket.on('message', function(msg){
+    io.emit('message', msg);
+  });
 });
 
-app.get('/messages', function(req, res) {
-    res.send(messages);
-});
-
-var server = app.listen(3000, function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log('Example app listening at http://%s:%s', host, port);
-
+http.listen(3000, function(){
+  console.log('listening on *:3000');
 });
