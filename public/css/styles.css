@@ -48,6 +48,7 @@ body {
 
 .avatar {
     height: 100%;
+    text-align: center
     /*margin-top: 10px;
     border-bottom: 1px solid;
     padding-bottom: 10px;*/
