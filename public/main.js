@@ -8,7 +8,8 @@ $(document).on('ready', function(){
             '</div>';
         $("#game-content").append(myHtml);
     });*/
-
+    createUser();
+    onlineUsers();
 	submitAnswer();
     handleMessage();
 });
@@ -48,6 +49,26 @@ function newMessage(user, message){
         $('#usernick').val('');
         $('#game-content').scrollTop(1E10);
     }
+}
+
+function createUser(){
+    $('#create-user').click(function(){
+        var nickname = $('#nickname').val(),
+            socket = io();
+        if(nickname !== ''){
+            $('#dialog-container').css('display', 'none');
+            $('#my-dialog').css('display', 'none');
+            $('#nickname').val('');
+            socket.emit('user created', nickname);
+        }
+    });
+}
+
+function onlineUsers(){
+    var socket = io();
+    socket.on('online users', function(users){
+        console.log(users);
+    });
 }
 
 
