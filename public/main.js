@@ -1,4 +1,14 @@
 $(document).on('ready', function(){
+
+    /*var socket= io();
+    socket.on('user connected', function(msg){
+        var myHtml =  '<div class="row">'+
+            '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><span>BOT</span></div>'+
+            '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + msg +'</p></div>'+
+            '</div>';
+        $("#game-content").append(myHtml);
+    });*/
+
 	submitAnswer();
     createNewMessage();
 });
@@ -41,5 +51,7 @@ function createNewMessage() {
         $("#game-content").append(myHtml);
     });
 }
+
+
 
 
