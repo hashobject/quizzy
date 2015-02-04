@@ -1,37 +1,25 @@
 $(document).on('ready', function(){
 	submitAnswer();
-    createNewMessage();
+    handleMessage();
 });
 
 function submitAnswer(){
 	$('#submit-answer').click(function(){
-		var answerValue = $('#user-answer').val();
-        var user = $('#usernick').val();
-        if(answerValue !== '' && user !== ''){
-            var socket = io();
-            socket.emit('message', {user: user, message: answerValue});
-            $('#user-answer').val('');
-            $('#usernick').val('');
-            $('#game-content').scrollTop(1E10);
-        }
+		var answerValue = $('#user-answer').val(),
+            userNick = $('#usernick').val();
+        newMessage(userNick, answerValue);
 	});
 
     $('#user-answer').keydown(function(e){
-        var answerValue = $('#user-answer').val();
-        var user = $('#usernick').val();
+        var answerValue = $('#user-answer').val(),
+            userNick = $('#usernick').val();
         if(e.keyCode === 13){
-            if(answerValue !== '' && user !== ''){
-                var socket = io();
-                socket.emit('message', {user: user, message: answerValue});
-                $('#user-answer').val('');
-                $('#usernick').val('');
-                $('#game-content').scrollTop(1E10);
-            }
+            newMessage(userNick, answerValue);
         }
     });
 }
 
-function createNewMessage() {
+function handleMessage() {
     var socket = io();
     socket.on('message', function(msg){
         var myHtml =  '<div class="row">'+
@@ -40,6 +28,16 @@ function createNewMessage() {
                     '</div>';
         $("#game-content").append(myHtml);
     });
+}
+
+function newMessage(user, message){
+    if(message !== '' && user !== ''){
+        var socket = io();
+        socket.emit('message', {user: user, message: message});
+        $('#user-answer').val('');
+        $('#usernick').val('');
+        $('#game-content').scrollTop(1E10);
+    }
 }
 
 
