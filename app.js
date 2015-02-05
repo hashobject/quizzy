@@ -14,10 +14,9 @@ app.use(express.static('public'));
 
 io.on('connection', function(socket){
 
-  /*io.emit('user connected', 'Hello');*/
-
   socket.on('user created', function(user){
-    users.push(user);
+    io.emit('user greeting', 'Hello, ' + user + '!');
+    users.push({name: user, connectionId: socket.id});
     io.emit('online users', users);
   });
 
@@ -26,7 +25,12 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function(){
-    console.log('user diconnect');
+    for(var i in users){
+        if(users[i].connectionId === socket.id){
+            users.splice(i, 1);
+        }
+    }
+       io.emit('online users', users);
   });
 
 });
@@ -34,4 +38,3 @@ io.on('connection', function(socket){
 http.listen(app.get('port'), function(){
   console.log('listening on *:3000');
 });
-//sd

@@ -1,15 +1,5 @@
 $(document).on('ready', function(){
-
-    /*var socket= io();
-    socket.on('user connected', function(msg){
-        var myHtml =  '<div class="row">'+
-            '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><span>BOT</span></div>'+
-            '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + msg +'</p></div>'+
-            '</div>';
-        $("#game-content").append(myHtml);
-    });*/
     createUser();
-    onlineUsers();
 	submitAnswer();
     handleMessage();
 });
@@ -60,14 +50,20 @@ function createUser(){
             $('#my-dialog').css('display', 'none');
             $('#nickname').val('');
             socket.emit('user created', nickname);
+            socket.on('online users', function(users){
+                $('#online').empty();
+                for(var i in users){
+                    $('#online').append('<p>'+users[i].name+'</p>');
+                }
+            });
+            socket.on('user greeting', function(greeting){
+                var myHtml =  '<div class="row">'+
+                    '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><img src="ars.jpg"/><span>BOT</span></div>'+
+                    '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + greeting + '</p></div>'+
+                    '</div>';
+                $("#game-content").append(myHtml);
+            });
         }
-    });
-}
-
-function onlineUsers(){
-    var socket = io();
-    socket.on('online users', function(users){
-        console.log(users);
     });
 }
 
