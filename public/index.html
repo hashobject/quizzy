@@ -4,6 +4,7 @@
     <title>Quizzy</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="jquery.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <script src="js/bootstrap.js"></script>
@@ -17,7 +18,10 @@
                 </div>
                 <div class="container" id="game-content"></div>
                 <div class="row" id="game-input">
-                    <div class="col-lg-9 col-md-9 col-sm-9" id='user-input-div'>
+                   <div class="col-lg-3 col-md-3 col-sm-3" id='user-input-div'>
+                        <input class="form-control" type="text" placeholder="Usernick" id="usernick"/>
+                    </div>
+                    <div class="col-lg-5 col-lg-offset-1 col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1" id='user-input-div'>
                         <input class="form-control" type="text" placeholder="Your answer" id="user-answer"/>
                     </div>
                     <div class="col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1" id='submit-answer-div'>
