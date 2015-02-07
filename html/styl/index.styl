@@ -1,0 +1,62 @@
+@import "normalize.min.css"
+
+*
+  box-sizing: border-box;
+
+html
+  height: 100%;
+
+body
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 1.48;
+  height: 100%;
+  overflow: hidden;
+    
+#game-window
+  background-color: green;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  height: 100%;
+  padding-bottom: 76px;
+  
+.answers-cnontainer
+  overflow: auto;
+  padding: 1em;
+  height: 100%;
+
+.answer-message
+  background-color: yellow;
+  display: table;
+  width: 100%;
+  margin-bottom: 0.5em;
+  &:last-child
+    margin-bottom: 0;
+  & .avatar
+    display: table-cell;
+    vertical-align: top;
+    width: 4.125em;
+    padding: 0.5em;
+    line-height: 0.5;
+    & img
+      width: 50px;
+      height: 50px;
+  & .answer-body
+    display: table-cell;
+    vertical-align: top;
+    padding: 0.5em;
+          
+#answer-cnontainer
+  background-color: blue;
+  overflow: auto;
+  padding: 1em;
+  & input
+    width: 100%;
+  & button
+    float: right;
+    
+  & .clear
+    width: 10px;
+    height: 10px;
+    color: gray;
