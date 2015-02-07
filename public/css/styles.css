@@ -17,8 +17,13 @@ body {
     border-radius: 5px;
 }
 
-#statistic-window {
-    height: 70%;
+#leaders-panel{
+    height: 50%;
+    border: 1px solid antiquewhite;
+}
+
+#side-window {
+    height: 100%;
     background: aliceblue;
     border-radius: 5px;
 }
@@ -67,12 +72,41 @@ img {
 }
 
 #statistics-title {
-    width: 100%;
     height: 20%;
+    width: 100%;
     text-align: center;
     margin: 0 auto;
 }
 
+#online-title {
+    height: 20%;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+
+#online-users-panel {
+    height: 50%;
+    border: 1px solid antiquewhite;
+}
+
+#side-window h3 {
+    margin: 0;
+    padding: 10px;
+}
+
+#leaders {
+    height: 80%;
+    width: 100%;
+    margin: 0 auto;
+    background: white;
+}
+
+#online-users{
+    height: 80%;
+
+}
 #leaders-board {
     height: 75%;
     width: 100%;
@@ -108,4 +142,39 @@ p {
 #game-content .row {
     border-bottom: 1px solid;
     padding: 10px;
+}
+
+#dialog-container{
+    position: absolute;
+	width: 100%;
+	height: 100%;
+	float: left;
+	background: black;
+	left: 0;
+	top: 0;
+	margin: 0;
+	display: flex;
+}
+
+#my-dialog {
+   	border-radius: 5px;
+    display: block;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    border: 1px solid gray;
+    margin: 200 auto;
+    width: 40%;
+    height: 20%;
+    margin: auto;
+    text-align: center;
+}
+
+#nickname {
+    width: 80%;
+    display: inline-block;
+}
+
+#create-user {
+    display: inline-block;
 }
