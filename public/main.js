@@ -14,6 +14,7 @@ function submitAnswer(){
             nickname = $('#nickname').val();
         if(name !== nickname){
             socket.emit('user created', nickname);
+            greetingsFromBot();
             name = nickname;
         }
         newMessage(nickname, answerValue);
