@@ -15,6 +15,16 @@ var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 
 app.set('port', (process.env.PORT || 3000))
 app.use(express.static('public'));
 
+app.get('/leaders', function(request, response) {
+	for(var i in leaders) {
+		leaders[i].points = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
+	}
+	leaders.sort(function(obj1, obj2){
+		return obj2.points - obj1.points;
+	});
+	response.send(leaders);
+});
+
 io.on('connection', function(socket){
 
   socket.on('user created', function(user){
@@ -40,16 +50,4 @@ io.on('connection', function(socket){
 
 http.listen(app.get('port'), function(){
   console.log('listening on *:3000');
-});
-
-//sd
-
-app.get('/leaders', function(request, response) {
-	for(var i in leaders) {
-		leaders[i].points = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
-	}
-	leaders.sort(function(obj1, obj2){
-		return obj2.points - obj1.points;
-	});
-	response.send(leaders);
 });
