@@ -6,11 +6,25 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var questionsList = question.correctQuestions();
+var question;
 
 var users = [];
 var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 'Maryna', points: 70}];
 
+function getQuestion(){
+    var generatedQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
+    question = generatedQuestion;
+    return generatedQuestion;
+}
 
+function checkTheAnswer(answer){
+    if(question.answer === answer){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 app.set('port', (process.env.PORT || 3000))
 app.use(express.static('public'));
@@ -27,6 +41,8 @@ app.get('/leaders', function(request, response) {
 
 io.on('connection', function(socket){
 
+  io.emit('question', getQuestion());
+
   socket.on('user created', function(user){
     io.emit('user greeting', 'Hello, ' + user + '!');
     users.push({name: user, connectionId: socket.id});
@@ -36,7 +52,13 @@ io.on('connection', function(socket){
     io.emit('online users', users);
 
   socket.on('message', function(msg){
+    var answer = msg.message;
     io.emit('message', msg);
+    io.emit('is answer correct', checkTheAnswer(answer));
+  });
+
+  socket.on('answer is correct', function(){
+    io.emit('question', getQuestion());
   });
 
   socket.on('disconnect', function(){
