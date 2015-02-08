@@ -1,19 +1,27 @@
 $(document).on('ready', function(){
+    var name = '';
 	submitAnswer();
     handleMessage();
     displayLeaders();
+    onlineUsers();
 });
 
 function submitAnswer(){
+
+    var socket = io();
 	$('#submit-answer').click(function(){
 		var answerValue = $('#user-answer').val(),
             nickname = $('#nickname').val();
+        if(name !== nickname){
+            socket.emit('user created', nickname);
+            name = nickname;
+        }
         newMessage(nickname, answerValue);
 	});
 
     $('#user-answer').keydown(function(e){
         var answerValue = $('#user-answer').val(),
-            userNick = $('#nickname').val();
+            nickname = $('#nickname').val();
         if(e.keyCode === 13){
             newMessage(nickname, answerValue);
         }
@@ -36,7 +44,7 @@ function newMessage(user, message){
         var socket = io();
         socket.emit('message', {user: user, message: message});
         $('#user-answer').val('');
-        $('#nickname').val('');
+        $('#nickname').prop('disabled', true);
         $('#game-content').scrollTop(1E10);
     }
 }
@@ -52,3 +60,12 @@ function displayLeaders() {
         }
     });
 }
+
+function onlineUsers(){
+    var socket = io();
+    socket.on('online users', function(users){
+        console.log(users);
+    });
+}
+
+
