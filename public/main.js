@@ -27,6 +27,7 @@ function submitAnswer(){
         if(e.keyCode === 13){
             if(name !== nickname){
                 socket.emit('user created', nickname);
+                greetingsFromBot();
                 name = nickname;
             }
             newMessage(nickname, answerValue);
@@ -42,6 +43,7 @@ function handleMessage() {
                     '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + msg.message + '</p></div>'+
                     '</div>';
         $("#game-content").append(myHtml);
+        $('#game-content').scrollTop(1E10);
     });
 }
 
@@ -51,7 +53,6 @@ function newMessage(user, message){
         socket.emit('message', {user: user, message: message});
         $('#user-answer').val('');
         $('#nickname').prop('disabled', true);
-        $('#game-content').scrollTop(1E10);
     }
 }
 

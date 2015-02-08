@@ -33,6 +33,8 @@ io.on('connection', function(socket){
     io.emit('online users', users);
   });
 
+    io.emit('online users', users);
+
   socket.on('message', function(msg){
     io.emit('message', msg);
   });
