@@ -1,29 +1,24 @@
 'use strict';
 var express = require('express');
-var question = require('./questions.js');
+var questions = require('./questions.js');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var questionsList = question.correctQuestions();
+var questionsList = questions.correctQuestions();
 var question;
 
 var users = [];
 var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 'Maryna', points: 70}];
 
 function getQuestion(){
-    var generatedQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
-    question = generatedQuestion;
-    return generatedQuestion;
+    var randomQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
+    question = randomQuestion;
+    return randomQuestion;
 }
 
 function checkTheAnswer(answer){
-    if(question.answer === answer){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return question.answer === answer;
 }
 
 app.set('port', (process.env.PORT || 3000))
@@ -54,7 +49,7 @@ io.on('connection', function(socket){
   socket.on('message', function(msg){
     var answer = msg.message;
     io.emit('message', msg);
-    io.emit('is answer correct', checkTheAnswer(answer));
+    io.emit('check the answer', checkTheAnswer(answer));
   });
 
   socket.on('answer is correct', function(){
