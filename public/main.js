@@ -1,7 +1,8 @@
 $(document).on('ready', function(){
 
     var userName = '',
-        socket = io();
+        socket = io(),
+        question = '';
 
     $('#submit-answer').click(function(){
         submitAnswer(socket);
@@ -89,13 +90,16 @@ $(document).on('ready', function(){
     }
 
     function getQuestion(socket){
-        socket.on('question', function(question){
-            var myHtml =  '<div class="row">'+
-                '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><span>BOT</span></div>'+
-                '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + question.question + '</p></div>'+
-                '</div>';
-            $("#game-content").append(myHtml);
-            $('#game-content').scrollTop(1E10);
+        socket.on('question', function(data){
+            if(question !== data.question){
+                var myHtml =  '<div class="row">'+
+                    '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><span>BOT</span></div>'+
+                    '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + data.question + '</p></div>'+
+                    '</div>';
+                $("#game-content").append(myHtml);
+                $('#game-content').scrollTop(1E10);
+                question = data.question;
+            }
         });
     }
 
