@@ -100,9 +100,13 @@ $(document).on('ready', function(){
     }
 
     function checkTheAnswer(socket) {
-        socket.on('check the answer', function (response) {
-            if (response === true)
-                socket.emit('answer is correct', true);
+        socket.on('answer', function (question) {
+            var myHtml =  '<div class="row">'+
+                '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><span>BOT</span></div>'+
+                '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + question.question + '</p></div>'+
+                '</div>';
+            $("#game-content").append(myHtml);
+            $('#game-content').scrollTop(1E10);
         });
     }
 

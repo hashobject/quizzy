@@ -11,14 +11,18 @@ var question;
 var users = [];
 var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 'Maryna', points: 70}];
 
-function getQuestion(){
+question = getRandomQuestion();
+
+function getRandomQuestion(){
     var randomQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
-    question = randomQuestion;
     return randomQuestion;
 }
 
 function checkTheAnswer(answer){
-    return question.answer === answer;
+    if(question.answer === answer){
+        question = getRandomQuestion();
+        return question;
+    }
 }
 
 app.set('port', (process.env.PORT || 3000))
@@ -36,7 +40,7 @@ app.get('/leaders', function(request, response) {
 
 io.on('connection', function(socket){
 
-  io.emit('question', getQuestion());
+  io.emit('question', question);
 
   socket.on('user created', function(user){
     io.emit('user greeting', 'Hello, ' + user + '!');
@@ -49,11 +53,7 @@ io.on('connection', function(socket){
   socket.on('message', function(msg){
     var answer = msg.message;
     io.emit('message', msg);
-    io.emit('check the answer', checkTheAnswer(answer));
-  });
-
-  socket.on('answer is correct', function(){
-    io.emit('question', getQuestion());
+    io.emit('answer', checkTheAnswer(answer));
   });
 
   socket.on('disconnect', function(){
