@@ -18,7 +18,12 @@ function getRandomQuestion(){
     return randomQuestion;
 }
 
-function checkTheAnswer(answer){
+function capitalizeAnswer(string){
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function checkTheAnswer(data){
+    var answer = capitalizeAnswer(data);
     if(question.answer === answer){
         question = getRandomQuestion();
         return question;
