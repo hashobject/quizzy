@@ -20,7 +20,7 @@ $(document).on('ready', function(){
 
     onlineUsers(socket);
 
-    getQuestion(socket);
+    getQuestion();
 
     checkTheAnswer(socket);
 
@@ -70,6 +70,17 @@ $(document).on('ready', function(){
         });
     }
 
+    function getQuestion() {
+        $.get('/question', function(data) {
+            var myHtml =  '<div class="row">'+
+                '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><span>BOT</span></div>'+
+                '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + data.question + '</p></div>'+
+                '</div>';
+            $("#game-content").append(myHtml);
+            $('#game-content').scrollTop(1E10);
+        });
+    }
+
     function onlineUsers(socket){
         socket.on('online users', function(users){
             $('#online').empty();
@@ -87,20 +98,6 @@ $(document).on('ready', function(){
                 '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + greeting + '</p></div>'+
                 '</div>';
             $("#game-content").append(myHtml);
-        });
-    }
-
-    function getQuestion(socket){
-        socket.on('question', function(data){
-            if(question !== data.question){
-                var myHtml =  '<div class="row">'+
-                    '<div class="col-lg-2 col-md-2 col-sm-2 avatar"><span>BOT</span></div>'+
-                    '<div class="col-lg-10 col-md-10 col-sm-10 message"><p>' + data.question + '</p></div>'+
-                    '</div>';
-                $("#game-content").append(myHtml);
-                $('#game-content').scrollTop(1E10);
-                question = data.question;
-            }
         });
     }
 
