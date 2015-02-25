@@ -18,13 +18,16 @@ function getRandomQuestion(){
     return randomQuestion;
 }
 
-function capitalizeAnswer(string){
-    return string.charAt(0).toUpperCase() + string.slice(1);
+function answerToLowerCase(string){
+    var answer = '';
+    for(var char in string){
+        answer += char.toLowerCase();
+    }
+    return answer;
 }
 
-function checkTheAnswer(data){
-    var answer = capitalizeAnswer(data);
-    if(question.answer === answer){
+function checkTheAnswer(userAnswer){
+    if(answerToLowerCase(question.answer) === answerToLowerCase(userAnswer)){
         question = getRandomQuestion();
         return question;
     }
