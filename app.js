@@ -18,8 +18,8 @@ function getRandomQuestion(){
     return randomQuestion;
 }
 
-function checkTheAnswer(answer){
-    if(question.answer === answer){
+function checkTheAnswer(userAnswer){
+    if(question.answer.toLowerCase() === userAnswer.toLowerCase()){
         question = getRandomQuestion();
         return question;
     }
@@ -38,9 +38,11 @@ app.get('/leaders', function(request, response) {
 	response.send(leaders);
 });
 
-io.on('connection', function(socket){
+app.get('/question', function(request, response) {
+    response.send(question);
+});
 
-  io.emit('question', question);
+io.on('connection', function(socket){
 
   socket.on('user created', function(user){
     io.emit('user greeting', 'Hello, ' + user + '!');
