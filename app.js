@@ -18,16 +18,8 @@ function getRandomQuestion(){
     return randomQuestion;
 }
 
-function answerToLowerCase(string){
-    var answer = '';
-    for(var char in string){
-        answer += char.toLowerCase();
-    }
-    return answer;
-}
-
 function checkTheAnswer(userAnswer){
-    if(answerToLowerCase(question.answer) === answerToLowerCase(userAnswer)){
+    if(question.answer.toLowerCase() === userAnswer.toLowerCase()){
         question = getRandomQuestion();
         return question;
     }
