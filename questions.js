@@ -13,13 +13,6 @@ fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
 
     getDataFromJson(jsonData);
 
-    /*fs.writeFile('generatedCountries.json', countries, function(err){
-
-        if(err){
-            console.log('ERROR');
-        }
-
-    });*/
     jf.writeFile('generatedCountries.json', countries);
 
 });
@@ -61,12 +54,20 @@ function countryNameToGenitiveForm (country) {
 }
 
 function getDataFromJson(json) {
+
 	for(var i in json){
+
         var country = countryNameToGenitiveForm(json[i].name),
             capital = json[i].capital;
 
         if(country){
-            countries.push(JSON.stringify({question: 'Столиця ' + country + '?', answer: capital}));
+            countries.push(
+                JSON.stringify(
+                    {
+                        question: 'Столиця ' + country + '?', answer: capital
+                    }
+                )
+            );
         }
 	}
 }
