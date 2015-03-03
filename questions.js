@@ -1,24 +1,27 @@
 'use strict';
 var questions = [],
+    countries = [],
     fs = require('fs'),
 	JSON5 = require('json5'),
-    genitiveCountry,
     jsonData,
-    consonantals = ["б", "в", "г", "ґ", "д", "ж", "з", "к", "л", "м", "н", "п", "р", "с", "т", "ф", "х", "ц", "ч", "ш", "щ", "й"],
-    vowels = ["а", "е", "и", "і", "о", "у", "є", "ю", "я", "ї"];
+    consonantals = ["б", "в", "г", "ґ", "д", "ж", "з", "к", "л", "м", "н", "п", "р", "с", "т", "ф", "х", "ц", "ч", "ш", "щ", "й"];
 
-var originCountries = ['Україна', 'Англія', 'Франція', 'Іспанія', "Конго",'Німеччина', 'Чехія', 'Молдова', 'Уельс', 'Китай', 'Азербайджан', 'Чилі', "Беліз", "Бангладеш"];
+fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
 
-//fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
-//    jsonData = JSON5.parse(data);
-//    getDataFromJson(jsonData, questions);
-//    console.log(questionsJS.questions);
-//});
+    jsonData = JSON5.parse(data);
 
-originCountries.forEach(function(country){
-    genitiveCountry = countryNameToGenitiveForm(country);
-    questions.push(genitiveCountry);
+    getDataFromJson(jsonData);
+
+    fs.writeFile('generatedCountries.json', countries, function(err){
+
+        if(err){
+            console.log('ERROR');
+        }
+
+    });
+
 });
+
 
 function countryNameToGenitiveForm (country) {
 
@@ -55,16 +58,14 @@ function countryNameToGenitiveForm (country) {
     return newCountryForm;
 }
 
-//function getDataFromJson(json, question) {
-//	for(var i in json){
-//		if(json[i].capital !== null) {
-//			question.push({"name": json[i].name, "capital": json[i].capital});
-//		}
-//		else {
-//			question.push({"name": json[i].name, "capital": json[i].name});
-//		}
-//	}
-//}
+function getDataFromJson(json) {
+	for(var i in json){
+        var country = countryNameToGenitiveForm(json[i].name);
+        if(country){
+            countries.push("Столиця " + country + "?");
+        }
+	}
+}
 
 exports.correctQuestions = function() {
     return questions;
