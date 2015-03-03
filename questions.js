@@ -5,7 +5,8 @@ var questions = [],
     jf = require('jsonfile'),
 	JSON5 = require('json5'),
     jsonData,
-    consonantals = ["б", "в", "г", "ґ", "д", "ж", "з", "к", "л", "м", "н", "п", "р", "с", "т", "ф", "х", "ц", "ч", "ш", "щ", "й"];
+    consonantals = ["б", "в", "г", "ґ", "д", "ж", "з", "к", "л", "м", "н", "п", "р", "с", "т", "ф", "х", "ц", "ч", "ш", "щ", "й"],
+    vowels = ["а", "е", "и", "і", "о", "у", "є", "ю", "я", "ї"];;
 
 fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
 
@@ -60,14 +61,16 @@ function getDataFromJson(json) {
         var country = countryNameToGenitiveForm(json[i].name),
             capital = json[i].capital;
 
-        if(country){
-            countries.push(
-                JSON.stringify(
-                    {
-                        question: 'Столиця ' + country + '?', answer: capital
-                    }
-                )
-            );
+        if(country && capital){
+            if(country.split(' ').length === 1){
+                countries.push(
+                    JSON.stringify(
+                        {
+                            question: 'Столиця ' + country + '?', answer: capital
+                        }
+                    )
+                );
+            }
         }
 	}
 }
