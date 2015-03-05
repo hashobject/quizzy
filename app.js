@@ -2,20 +2,22 @@
 var express = require('express');
 var questions = require('./questions.js');
 var app = express();
+var fs = require('fs');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var questionsList = questions.correctQuestions();
 var question;
+var questionsList = JSON.parse(fs.readFileSync('./generatedCountries.json', 'utf8'));
 
 var users = [];
 var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 'Maryna', points: 70}];
+
 
 question = getRandomQuestion();
 
 function getRandomQuestion(){
     var randomQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
-    return randomQuestion;
+    return JSON.parse(randomQuestion);
 }
 
 function checkTheAnswer(userAnswer){

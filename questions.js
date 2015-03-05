@@ -6,7 +6,7 @@ var questions = [],
 	JSON5 = require('json5'),
     jsonData,
     consonantals = ["б", "в", "г", "ґ", "д", "ж", "з", "к", "л", "м", "н", "п", "р", "с", "т", "ф", "х", "ц", "ч", "ш", "щ", "й"],
-    vowels = ["а", "е", "и", "і", "о", "у", "є", "ю", "я", "ї"];;
+    vowels = ["а", "е", "и", "і", "о", "у", "є", "ю", "я", "ї"];
 
 fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
 
@@ -75,6 +75,6 @@ function getDataFromJson(json) {
 	}
 }
 
-exports.correctQuestions = function() {
+/*exports.correctQuestions = function() {
     return questions;
-}
+}*/
