@@ -18,16 +18,15 @@ fs.readFile('./public/freebase_countries.json', 'utf8', function(err, data){
 
 });
 
-
 function countryNameToGenitiveForm (country) {
 
     var countryEnding = country[country.length-1],
         countryWithoutEnding = country.slice(0, country.length - 1),
         newCountryForm;
 
-    for(var i in consonantals){
+    consonantals.map(function(letter){
 
-        if(countryEnding === consonantals[i] && countryEnding !== 'й' && countryEnding !== 'ш' && countryEnding !== 'з'){
+        if(countryEnding === letter && countryEnding !== 'й' && countryEnding !== 'ш' && countryEnding !== 'з'){
             newCountryForm = country + 'у';
         }
         else if(countryEnding === 'й'){
@@ -39,7 +38,8 @@ function countryNameToGenitiveForm (country) {
         else if(countryEnding === 'з'){
             newCountryForm = country + 'а';
         }
-    }
+
+    });
 
     if(countryEnding === 'я'){
         newCountryForm = countryWithoutEnding + 'ї';
