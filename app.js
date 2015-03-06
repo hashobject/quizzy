@@ -1,13 +1,12 @@
 'use strict';
-var express = require('express');
-var questions = require('./questions.js');
-var app = express();
-var fs = require('fs');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var express = require('express'),
+    app = express(),
+    fs = require('fs'),
+    http = require('http').Server(app),
+    io = require('socket.io')(http);
 
-var question;
-var questionsList = JSON.parse(fs.readFileSync('./generatedCountries.json', 'utf8'));
+var question,
+    questionsList = JSON.parse(fs.readFileSync('./generatedCountries.json', 'utf8'));
 
 var users = [];
 var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 'Maryna', points: 70}];
@@ -15,34 +14,9 @@ var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 
 
 question = getRandomQuestion();
 
-function getRandomQuestion(){
-    var randomQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
-    return JSON.parse(randomQuestion);
-}
+sendLeaders(leaders);
 
-function checkTheAnswer(userAnswer){
-    if(question.answer.toLowerCase() === userAnswer.toLowerCase()){
-        question = getRandomQuestion();
-        return question;
-    }
-}
-
-app.set('port', (process.env.PORT || 3000))
-app.use(express.static('public'));
-
-app.get('/leaders', function(request, response) {
-	for(var i in leaders) {
-		leaders[i].points = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
-	}
-	leaders.sort(function(obj1, obj2){
-		return obj2.points - obj1.points;
-	});
-	response.send(leaders);
-});
-
-app.get('/question', function(request, response) {
-    response.send(question);
-});
+sendQuestion(question)
 
 io.on('connection', function(socket){
 
@@ -71,6 +45,41 @@ io.on('connection', function(socket){
 
 });
 
+app.set('port', (process.env.PORT || 3000))
+app.use(express.static('public'));
+
 http.listen(app.get('port'), function(){
   console.log('listening on *:3000');
 });
+
+function sendLeaders(leaders){
+    app.get('/leaders', function(request, response) {
+        leaders.map(function(leader){
+            leader.points = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
+        });
+
+        leaders.sort(function(obj1, obj2){
+            return obj2.points - obj1.points;
+        });
+
+        response.send(leaders);
+    });
+}
+
+function sendQuestion(question){
+    app.get('/question', function(request, response) {
+        response.send(question);
+    });
+}
+
+function getRandomQuestion(){
+    var randomQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
+    return JSON.parse(randomQuestion);
+}
+
+function checkTheAnswer(userAnswer){
+    if(question.answer.toLowerCase() === userAnswer.toLowerCase()){
+        question = getRandomQuestion();
+        return question;
+    }
+}
