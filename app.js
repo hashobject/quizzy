@@ -8,11 +8,12 @@ var express = require('express'),
 var question,
     questionsList = JSON.parse(fs.readFileSync('./generatedCountries.json', 'utf8'));
 
-var users = [];
+var users = [],
+    lastUser = '';
 
 question = getRandomQuestion();
 
-sendQuestion(question)
+sendQuestion();
 
 io.on('connection', function(socket){
 
@@ -20,7 +21,7 @@ io.on('connection', function(socket){
 
   socket.on('user created', function(user){
     io.emit('user greeting', 'Hello, ' + user + '!');
-    users.push({name: user, connectionId: socket.id, points: 0});
+    users.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
     io.emit('online users', users);
   });
 
@@ -52,7 +53,7 @@ http.listen(app.get('port'), function(){
 });
 
 
-function sendQuestion(question){
+function sendQuestion(){
     app.get('/question', function(request, response) {
         response.send(question);
     });
@@ -64,13 +65,28 @@ function getRandomQuestion(){
 }
 
 function checkTheAnswer(userAnswer, socket){
+
     if(question.answer.toLowerCase() === userAnswer.toLowerCase()){
         users.map(function(user){
             if(user.connectionId === socket.id){
-                user.points = user.points + 1;
+
+                user.correctAnswersRow = user.correctAnswersRow +1;
+
+                if(user === lastUser || lastUser === ''){
+                    if(user.correctAnswersRow){
+                        user.points = user.points + user.correctAnswersRow;
+                    }
+                }
+                else{
+                    user.correctAnswersRow = 0;
+                }
+
+                lastUser = user;
             }
         });
         question = getRandomQuestion();
         return question;
     }
+
 }
+

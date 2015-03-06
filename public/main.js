@@ -61,6 +61,7 @@ $(document).on('ready', function(){
     function displayLeaders(socket) {
         socket.on('leaders', function(leaders) {
             $('#leaders .leaders-col').empty();
+            debugger
             for(var i in leaders) {
                 var html = '<div class="row leaders-record">'+
                     '<div class="col-lg-6 col-md-6 col-sm-6">' + leaders[i].name + '</div>'+
