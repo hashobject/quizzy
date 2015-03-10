@@ -11,12 +11,9 @@ var question,
 var users = [];
 var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 'Maryna', points: 70}];
 
-
-question = getRandomQuestion();
-
 sendLeaders(leaders);
 
-sendQuestion(question)
+sendQuestion();
 
 io.on('connection', function(socket){
 
@@ -66,7 +63,8 @@ function sendLeaders(leaders){
     });
 }
 
-function sendQuestion(question){
+function sendQuestion(){
+    question = getRandomQuestion();
     app.get('/question', function(request, response) {
         response.send(question);
     });
