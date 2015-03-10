@@ -17,7 +17,9 @@ sendQuestion();
 
 io.on('connection', function(socket){
 
-    io.emit('leaders', users);
+    io.emit('leaders', users.sort(function(obj1, obj2){
+        return obj2.points - obj1.points;
+    }));
 
   socket.on('user created', function(user){
     io.emit('user greeting', 'Hello, ' + user + '!');
@@ -32,7 +34,9 @@ io.on('connection', function(socket){
     io.emit('message', msg);
     io.emit('answer', checkTheAnswer(answer, socket));
 
-      io.emit('leaders', users);
+      io.emit('leaders', users.sort(function(obj1, obj2){
+          return obj2.points - obj1.points;
+      }));
   });
 
   socket.on('disconnect', function(){
