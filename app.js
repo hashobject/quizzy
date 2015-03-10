@@ -11,6 +11,8 @@ var question,
 var users = [];
 var leaders = [{name: 'Anton', points: 50}, {name: 'Pasha', points: 60}, {name: 'Maryna', points: 70}];
 
+var isAnswered = false;
+
 
 question = getRandomQuestion();
 
@@ -19,6 +21,8 @@ sendLeaders(leaders);
 sendQuestion(question)
 
 io.on('connection', function(socket){
+
+    questionExpiration();
 
   socket.on('user created', function(user){
     io.emit('user greeting', 'Hello, ' + user + '!');
@@ -74,12 +78,24 @@ function sendQuestion(question){
 
 function getRandomQuestion(){
     var randomQuestion = questionsList[Math.floor(Math.random()*questionsList.length)];
+    //isAnswered = true;
     return JSON.parse(randomQuestion);
 }
 
 function checkTheAnswer(userAnswer){
     if(question.answer.toLowerCase() === userAnswer.toLowerCase()){
+        isAnswered = true;
         question = getRandomQuestion();
         return question;
+    }
+}
+
+function questionExpiration(){
+    if(!isAnswered){
+        setInterval(function(){
+            question = getRandomQuestion();
+            var newQuestion = {bot: 'The time is up!', question: question}
+            io.emit('question expiration', newQuestion);
+        }, 20000);
     }
 }
