@@ -31,6 +31,7 @@ io.on('connection', function(socket){
     var answer = msg.message;
     io.emit('message', msg);
     io.emit('answer', checkTheAnswer(answer, socket));
+
       io.emit('leaders', users);
   });
 
@@ -72,16 +73,11 @@ function checkTheAnswer(userAnswer, socket){
 
                 user.correctAnswersRow = user.correctAnswersRow +1;
 
-                if(user === lastUser || lastUser === ''){
-                    if(user.correctAnswersRow){
-                        user.points = user.points + user.correctAnswersRow;
-                    }
-                }
-                else{
-                    user.correctAnswersRow = 0;
-                }
+                user.points = user.points + user.correctAnswersRow;
 
-                lastUser = user;
+            }
+            else{
+                user.correctAnswersRow = 0;
             }
         });
         question = getRandomQuestion();
