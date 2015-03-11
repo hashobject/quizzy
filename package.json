@@ -21,6 +21,7 @@
   "homepage": "https://github.com/hashobject/quizzy",
   "dependencies": {
     "express": "^4.11.2",
+    "firebase": "^2.2.2",
     "json5": "^0.4.0",
     "socket.io": "^1.3.2"
   }
