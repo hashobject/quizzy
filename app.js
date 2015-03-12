@@ -4,7 +4,6 @@ var express = require('express'),
     fs = require('fs'),
     http = require('http').Server(app),
     Firebase = require("firebase"),
-    async = require('async'),
     io = require('socket.io')(http);
 
 var usersRef = new Firebase('https://quizzy-ua.firebaseio.com/users');
@@ -12,82 +11,53 @@ var usersRef = new Firebase('https://quizzy-ua.firebaseio.com/users');
 var question,
     questionsList = JSON.parse(fs.readFileSync('./generatedCountries.json', 'utf8'));
 
+var users = [];
+
 sendQuestion();
 
-getDataFromFB();
+io.on('connection', function(socket){
 
-function getDataFromFB(){
+    sendLeaders();
 
-    var users = [];
+    sendOnlineUsers();
 
-    usersRef.on('value', function(snap){
+    socket.on('message', function(message){
 
-        snap.forEach(function(childSnap){
-            users.push(childSnap.val());
-        });
+        var answer = message.message,
+            user = message.user;
 
-        userOnConnection(users);
+        botGreetings(user);
+
+        users.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
+
+        usersRef.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
+
+        sendOnlineUsers();
+
+        io.emit('message', message);
+
+        io.emit('answer', checkTheAnswer(answer, socket));
+
+        sendLeaders();
 
     });
 
-}
+    socket.on('disconnect', function(){
 
-function userOnConnection(users){
-    io.on('connection', function(socket){
+        for(var i in users){
 
-        io.emit('leaders', users.sort(function(obj1, obj2){
+            if(users[i].connectionId === socket.id){
 
-            return obj2.points - obj1.points;
-
-        }));
-
-        socket.on('user created', function(user){
-
-            io.emit('user greeting', 'Hello, ' + user + '!');
-
-            users.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
-
-            usersRef.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
-
-            io.emit('online users', users);
-
-        });
-
-        io.emit('online users', users);
-
-        socket.on('message', function(msg){
-
-            var answer = msg.message;
-
-            io.emit('message', msg);
-
-            io.emit('answer', checkTheAnswer(answer, socket, users));
-
-            io.emit('leaders', users.sort(function(obj1, obj2){
-
-                return obj2.points - obj1.points;
-
-            }));
-
-        });
-
-        socket.on('disconnect', function(){
-
-            for(var i in users){
-
-                if(users[i].connectionId === socket.id){
-
-                    users.splice(i, 1);
-
-                }
+                users.splice(i, 1);
 
             }
 
-            io.emit('online users', users);
-        });
+        }
 
-    });
-}
+       sendOnlineUsers();
+  });
+
+});
 
 app.set('port', (process.env.PORT || 3000))
 app.use(express.static('public'));
@@ -117,7 +87,7 @@ function getRandomQuestion(){
 
 }
 
-function checkTheAnswer(userAnswer, socket, users){
+function checkTheAnswer(userAnswer, socket){
 
     if(question.answer.toLowerCase() === userAnswer.toLowerCase()){
 
@@ -141,6 +111,28 @@ function checkTheAnswer(userAnswer, socket, users){
 
         return question;
     }
+
+}
+
+function sendLeaders(){
+
+    io.emit('leaders', users.sort(function(obj1, obj2){
+
+        return obj2.points - obj1.points;
+
+    }));
+
+}
+
+function sendOnlineUsers(){
+
+    io.emit('online users', users);
+
+}
+
+function botGreetings(user){
+
+    io.emit('user greeting', 'Hello, ' + user + '!');
 
 }
 
