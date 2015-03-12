@@ -16,7 +16,7 @@ $(document).on('ready', function(){
 
     handleMessage(socket);
 
-    displayLeaders();
+    displayLeaders(socket);
 
     onlineUsers(socket);
 
@@ -32,7 +32,6 @@ $(document).on('ready', function(){
             nickname = $('#nickname').val();
 
         if(userName !== nickname){
-            socket.emit('user created', nickname);
             greetingsFromBot(socket);
             userName = nickname;
         }
@@ -60,12 +59,13 @@ $(document).on('ready', function(){
         }
     }
 
-    function displayLeaders() {
-        $.get('/leaders', function(data) {
-            for(var i in data) {
+    function displayLeaders(socket) {
+        socket.on('leaders', function(leaders) {
+            $('#leaders .leaders-col').empty();
+            for(var i in leaders) {
                 var html = '<div class="row leaders-record">'+
-                    '<div class="col-lg-6 col-md-6 col-sm-6">' + data[i].name + '</div>'+
-                    '<div class="col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2 col-sm-4 col-sm-offset-2">' + data[i].points + '</div>'+
+                    '<div class="col-lg-6 col-md-6 col-sm-6">' + leaders[i].name + '</div>'+
+                    '<div class="col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2 col-sm-4 col-sm-offset-2">' + leaders[i].points + '</div>'+
                     '</div>';
                 $('#leaders .leaders-col').append(html);
             }
