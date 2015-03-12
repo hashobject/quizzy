@@ -8,7 +8,8 @@ var express = require('express'),
 var question,
     questionsList = JSON.parse(fs.readFileSync('./generatedCountries.json', 'utf8'));
 
-var users = [];
+var users = [],
+    lastUser = '';
 
 sendQuestion();
 
@@ -23,9 +24,11 @@ io.on('connection', function(socket){
         var answer = message.message,
             user = message.user;
 
-        botGreetings(user);
-
-        users.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
+        if(lastUser !== user){
+            botGreetings(user);
+            users.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
+            lastUser = user;
+        }
 
         sendOnlineUsers();
 
