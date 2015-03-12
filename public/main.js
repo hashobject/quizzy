@@ -30,7 +30,6 @@ $(document).on('ready', function(){
             nickname = $('#nickname').val();
 
         if(userName !== nickname){
-            socket.emit('user created', nickname);
             greetingsFromBot(socket);
             userName = nickname;
         }

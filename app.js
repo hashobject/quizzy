@@ -17,43 +17,32 @@ sendQuestion();
 
 io.on('connection', function(socket){
 
-    io.emit('leaders', users.sort(function(obj1, obj2){
+    sendLeaders();
 
-        return obj2.points - obj1.points;
+    sendOnlineUsers();
 
-    }));
+    socket.on('message', function(message){
 
-    socket.on('user created', function(user){
+        var answer = message.message,
+            user = message.user;
 
-        io.emit('user greeting', 'Hello, ' + user + '!');
+        botGreetings(user);
 
         users.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
 
         usersRef.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
 
-        io.emit('online users', users);
+        sendOnlineUsers();
 
-    });
-
-    io.emit('online users', users);
-
-    socket.on('message', function(msg){
-
-        var answer = msg.message;
-
-        io.emit('message', msg);
+        io.emit('message', message);
 
         io.emit('answer', checkTheAnswer(answer, socket));
 
-        io.emit('leaders', users.sort(function(obj1, obj2){
-
-            return obj2.points - obj1.points;
-
-        }));
+        sendLeaders();
 
     });
 
-  socket.on('disconnect', function(){
+    socket.on('disconnect', function(){
 
         for(var i in users){
 
@@ -65,7 +54,7 @@ io.on('connection', function(socket){
 
         }
 
-       io.emit('online users', users);
+       sendOnlineUsers();
   });
 
 });
@@ -122,6 +111,28 @@ function checkTheAnswer(userAnswer, socket){
 
         return question;
     }
+
+}
+
+function sendLeaders(){
+
+    io.emit('leaders', users.sort(function(obj1, obj2){
+
+        return obj2.points - obj1.points;
+
+    }));
+
+}
+
+function sendOnlineUsers(){
+
+    io.emit('online users', users);
+
+}
+
+function botGreetings(user){
+
+    io.emit('user greeting', 'Hello, ' + user + '!');
 
 }
 
