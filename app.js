@@ -3,10 +3,7 @@ var express = require('express'),
     app = express(),
     fs = require('fs'),
     http = require('http').Server(app),
-    Firebase = require("firebase"),
     io = require('socket.io')(http);
-
-var usersRef = new Firebase('https://quizzy-ua.firebaseio.com/users');
 
 var question,
     questionsList = JSON.parse(fs.readFileSync('./generatedCountries.json', 'utf8'));
@@ -29,8 +26,6 @@ io.on('connection', function(socket){
         botGreetings(user);
 
         users.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
-
-        usersRef.push({name: user, connectionId: socket.id, points: 0, correctAnswersRow: 0});
 
         sendOnlineUsers();
 
